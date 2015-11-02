@@ -4,7 +4,6 @@
 <html lang="en">
 	<head>
 		<title>jquery网格插件 - Bootstrap后台管理系统模版Ace下载</title>
-		<link rel="stylesheet" href="${ctx}/css/ui.jqgrid.css" />
 	</head>
 
 	<body>
@@ -110,7 +109,6 @@
 		
 			jQuery(grid_selector).jqGrid({
 				//direction: "rtl",
-				
 				data: grid_data,
 				datatype: "local",
 				height: 250,
@@ -131,11 +129,9 @@
 				pager : pager_selector,
 				altRows: true,
 				//toppager: true,
-				
 				multiselect: true,
 				//multikey: "ctrlKey",
 		        multiboxonly: true,
-		
 				loadComplete : function() {
 					var table = this;
 					setTimeout(function(){
@@ -145,7 +141,6 @@
 						enableTooltips(table);
 					}, 0);
 				},
-		
 				//editurl: $path_base+"/dummy.html",//nothing is saved
 				caption: "jqGrid with inline editing",
 				autowidth: true

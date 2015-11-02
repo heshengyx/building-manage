@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/manage/building")
-public class BuildingManageController extends BaseController{
+public class BuildingManageController extends BaseController {
 
 	@RequestMapping("")
 	public String page() {
