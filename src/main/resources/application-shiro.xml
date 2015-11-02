@@ -66,12 +66,14 @@
 	<bean id="chainDefinitionSectionMetaSource" class="com.house.building.security.ChainDefinitionSectionMetaSource">  
 		<property name="filterChainDefinitions">  
 			<value>  
-	            /login/** = anon
+	            /avatars/** = anon
+	            /images/** = anon
 	            /css/** = anon
 	            /js/** = anon
-	            /images/** = anon
 	            /fonts/** = anon
 	            /plugins/** = anon
+	            
+	            /login/** = anon
 	            
 	            /** = authc
 	            <!--/manage = authc-->
