@@ -104,7 +104,7 @@
 				colModel: [
 					{label:'id', name:'id', key:true, index:'id', hidden:true},
 					{label:'楼盘名称', name:'buildingName', index:'buildingName'},
-					{label:'楼盘地址', name:'address', index:'address'},
+					{label:'楼盘地址', name:'buildingAddress', index:'buildingAddress'},
 					{label:'建筑年代', name:'buildingYear', index:'buildingYear', width:80},
 					{label:'楼层', name:'buildingFloor', index:'buildingFloor', width:50},
 					{label:'创建时间', name:'createTime', index:'createTime', width:100, formatter:to_date_hms},
