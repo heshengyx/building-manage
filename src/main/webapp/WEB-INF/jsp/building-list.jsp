@@ -58,11 +58,13 @@
 								<i class="icon-remove"></i>
 							</button>
 						</div>
+						
+						<table id="dataGridTable"></table>
+						<div id="dataGridPager"></div>
 
 						<table id="grid-table"></table>
-
 						<div id="grid-pager"></div>
-
+						
 						<script type="text/javascript">
 							var $path_base = "/";//this will be used in gritter alerts containing images
 						</script>
@@ -75,7 +77,8 @@
 		<jscript>
 		<script src="${ctx}/js/date-time/bootstrap-datepicker.min.js"></script>
 		<script src="${ctx}/js/jqGrid/jquery.jqGrid.min.js"></script>
-		<script src="${ctx}/js/jqGrid/i18n/grid.locale-en.js"></script>
+		<script src="${ctx}/js/jqGrid/i18n/grid.locale-cn.js"></script>
+		<script src="${ctx}/js/format.js"></script>
 		<script type="text/javascript">
 		var grid_data = 
 			[ 
@@ -104,35 +107,41 @@
 				{id:"23",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"}
 			];	
 		$(document).ready(function() {
-			var grid_selector = "#grid-table";
-			var pager_selector = "#grid-pager";
-		
-			jQuery(grid_selector).jqGrid({
-				//direction: "rtl",
-				data: grid_data,
-				datatype: "local",
-				height: 250,
-				colNames:[' ', 'ID','Last Sales','Name', 'Stock', 'Ship via','Notes'],
-				colModel:[
-					{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,formatter:'actions'},
-					{name:'id',index:'id', width:60, sorttype:"int", editable: true},
-					{name:'sdate',index:'sdate',width:90, editable:true, sorttype:"date"},
-					{name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-					{name:'stock',index:'stock', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"}},
-					{name:'ship',index:'ship', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-					{name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
-				], 
-		
-				viewrecords : true,
-				rowNum:10,
-				rowList:[10,20,30],
-				pager : pager_selector,
-				altRows: true,
-				//toppager: true,
-				multiselect: true,
-				//multikey: "ctrlKey",
-		        multiboxonly: true,
-				loadComplete : function() {
+			$("#dataGridTable").jqGrid({
+				url: "${ctx}/manage/building/query",
+				datatype: "json",
+				colModel: [
+					{label:'id', name:'id', key:true, index:'id', hidden:true},
+					{label:'楼盘名称', name:'buildingName', index:'buildingName'},
+					{label:'楼盘地址', name:'address', index:'address'},
+					{label:'建筑年代', name:'buildingYear', index:'buildingYear', width:80},
+					{label:'楼层', name:'buildingFloor', index:'buildingFloor', width:50},
+					{label:'创建时间', name:'createTime', index:'createTime', width:100, formatter:to_date_hms},
+					{label:'操作', name:'opts', index:'opts', width:30, align:'center', formatter: function(cellval, options, row) {
+						var content = "";
+						content += "<span class=\"icon-pencil blue\"></span>&nbsp;&nbsp;";
+						content += "<span class=\"icon-trash red\"></span>";
+						//ui-icon icon-plus-sign purple
+						return content;
+					}}
+				],
+				rowNum: 30,
+			   	rowList: [10, 20, 30],
+			   	rownumbers: true,
+			   	pager: "#dataGridPager",
+			   	jsonReader : {
+					root : 'data',
+					page : 'index',
+					total : 'total',
+					records : 'totalRecord',
+					repeatitems : false
+				},
+			   	viewrecords: true,
+			   	multiselect: true,
+			   	//altRows: true,
+			   	//multiboxonly: true,
+			   	
+			   	loadComplete : function() {
 					var table = this;
 					setTimeout(function(){
 						styleCheckbox(table);
@@ -141,13 +150,11 @@
 						enableTooltips(table);
 					}, 0);
 				},
-				//editurl: $path_base+"/dummy.html",//nothing is saved
-				caption: "jqGrid with inline editing",
+				caption: "楼盘列表",
 				autowidth: true
 			});
-			
 			//navButtons
-			jQuery(grid_selector).jqGrid('navGrid',pager_selector,
+			jQuery('#dataGridTable').jqGrid('navGrid', '#dataGridPager',
 				{ 	//navbar options
 					edit: true,
 					editicon : 'icon-pencil blue',
@@ -161,71 +168,8 @@
 					refreshicon : 'icon-refresh green',
 					view: true,
 					viewicon : 'icon-zoom-in grey',
-				},
-				{
-					//edit record form
-					//closeAfterEdit: true,
-					recreateForm: true,
-					beforeShowForm : function(e) {
-						var form = $(e[0]);
-						form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-						style_edit_form(form);
-					}
-				},
-				{
-					//new record form
-					closeAfterAdd: true,
-					recreateForm: true,
-					viewPagerButtons: false,
-					beforeShowForm : function(e) {
-						var form = $(e[0]);
-						form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-						style_edit_form(form);
-					}
-				},
-				{
-					//delete record form
-					recreateForm: true,
-					beforeShowForm : function(e) {
-						var form = $(e[0]);
-						if(form.data('styled')) return false;
-						
-						form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-						style_delete_form(form);
-						
-						form.data('styled', true);
-					},
-					onClick : function(e) {
-						alert(1);
-					}
-				},
-				{
-					//search form
-					recreateForm: true,
-					afterShowSearch: function(e){
-						var form = $(e[0]);
-						form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-						style_search_form(form);
-					},
-					afterRedraw: function(){
-						style_search_filters($(this));
-					}
-					,
-					multipleSearch: true,
-					/**
-					multipleGroup:true,
-					showQuery: true
-					*/
-				},
-				{
-					//view record form
-					recreateForm: true,
-					beforeShowForm: function(e){
-						var form = $(e[0]);
-						form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-					}
 				}
-			)
+			);
 		});
 		function styleCheckbox(table) {
 		/**
@@ -270,7 +214,6 @@
 				if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
 			})
 		}
-	
 		function enableTooltips(table) {
 			$('.navtable .ui-pg-button').tooltip({container:'body'});
 			$(table).find('.ui-pg-div').tooltip({container:'body'});
