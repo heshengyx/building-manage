@@ -25,49 +25,66 @@
 					<li class="active">jqGrid plugin</li>
 				</ul><!-- .breadcrumb -->
 
-				<div class="nav-search" id="nav-search">
+				<!-- <div class="nav-search" id="nav-search">
 					<form class="form-search">
 						<span class="input-icon">
 							<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
 							<i class="icon-search nav-search-icon"></i>
 						</span>
 					</form>
-				</div><!-- #nav-search -->
+				</div> -->
+				<!-- #nav-search -->
 			</div>
 
 			<div class="page-content">
 				<div class="page-header">
 					<h1>
-						jqGrid
+						楼盘管理
 						<small>
 							<i class="icon-double-angle-right"></i>
-							Dynamic tables and grids using jqGrid plugin
+							楼盘查询
 						</small>
 					</h1>
-				</div><!-- /.page-header -->
+				</div>
+				<!-- /.page-header -->
 
 				<div class="row">
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
 
-						<div class="alert alert-info">
+						<!-- <div class="alert alert-info">
 							<i class="icon-hand-right"></i>
-
 							Please note that demo server is not configured to save the changes, therefore you may get an error message.
 							<button class="close" data-dismiss="alert">
 								<i class="icon-remove"></i>
 							</button>
-						</div>
+						</div> -->
+						<form class="form-horizontal" role="form">
+							<div class="form-group">
+								<label class="col-sm-1 control-label no-padding-right" for="buildingName">楼盘名称</label>
+								<div class="col-sm-11">
+									<input type="text" id="buildingName" placeholder="楼盘名称" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-1 control-label no-padding-right" for="address">楼盘地址</label>
+								<div class="col-sm-11">
+									<input type="text" id="address" placeholder="楼盘地址" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<div class="col-md-offset-1 col-md-11">
+									<button class="btn btn-sm btn-info" type="button" id="search-btn"><i class="icon-ok bigger-110"></i>查 询</button>
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-sm" type="reset"><i class="icon-undo bigger-110"></i>重 置</button>
+								</div>
+							</div>
+						</form>
 						
 						<table id="dataGridTable"></table>
 						<div id="dataGridPager"></div>
-
-						<table id="grid-table"></table>
-						<div id="grid-pager"></div>
-						
-						<script type="text/javascript">
-							var $path_base = "/";//this will be used in gritter alerts containing images
-						</script>
 
 						<!-- PAGE CONTENT ENDS -->
 					</div><!-- /.col -->
@@ -79,33 +96,7 @@
 		<script src="${ctx}/js/jqGrid/jquery.jqGrid.min.js"></script>
 		<script src="${ctx}/js/jqGrid/i18n/grid.locale-cn.js"></script>
 		<script src="${ctx}/js/format.js"></script>
-		<script type="text/javascript">
-		var grid_data = 
-			[ 
-				{id:"1",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"2",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"3",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"4",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"5",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-				{id:"6",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"7",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"8",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"9",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"10",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"11",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"12",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"13",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"14",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-				{id:"15",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"16",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"17",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"18",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"19",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"20",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"21",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"22",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"23",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"}
-			];	
+		<script type="text/javascript">	
 		$(document).ready(function() {
 			$("#dataGridTable").jqGrid({
 				url: "${ctx}/manage/building/query",
@@ -117,11 +108,14 @@
 					{label:'建筑年代', name:'buildingYear', index:'buildingYear', width:80},
 					{label:'楼层', name:'buildingFloor', index:'buildingFloor', width:50},
 					{label:'创建时间', name:'createTime', index:'createTime', width:100, formatter:to_date_hms},
-					{label:'操作', name:'opts', index:'opts', width:30, align:'center', formatter: function(cellval, options, row) {
+					//{label:'操作', name:'opts', index:'opts', width:50, align:'center', formatter: "actions"}
+					{label:'操作', name:'opts', index:'opts', width:50, align:'center', formatter: function(cellval, options, row) {
 						var content = "";
-						content += "<span class=\"icon-pencil blue\"></span>&nbsp;&nbsp;";
-						content += "<span class=\"icon-trash red\"></span>";
-						//ui-icon icon-plus-sign purple
+						content += "<div class=\"visible-md visible-lg hidden-sm hidden-xs action-buttons\">"
+						content += "<a class=\"blue\" href=\"#\"><i class=\"icon-zoom-in bigger-130\"></i></a>";
+						content += "<a class=\"green\" href=\"#\"><i class=\"icon-pencil bigger-130\"></i></a>";
+						content += "<a class=\"red\" href=\"#\"><i class=\"icon-trash bigger-130\"></i></a>";
+						content += "</div>";
 						return content;
 					}}
 				],
@@ -137,18 +131,17 @@
 					repeatitems : false
 				},
 			   	viewrecords: true,
-			   	multiselect: true,
+			   	//multiselect: true,
 			   	//altRows: true,
 			   	//multiboxonly: true,
-			   	
 			   	loadComplete : function() {
-					var table = this;
+					/* var table = this;
 					setTimeout(function(){
 						styleCheckbox(table);
 						updateActionIcons(table);
 						updatePagerIcons(table);
 						enableTooltips(table);
-					}, 0);
+					}, 0); */
 				},
 				caption: "楼盘列表",
 				autowidth: true
@@ -170,6 +163,10 @@
 					viewicon : 'icon-zoom-in grey',
 				}
 			);
+			
+			$('#search-btn').click(function() {
+				doSearch();
+			});
 		});
 		function styleCheckbox(table) {
 		/**
@@ -217,6 +214,18 @@
 		function enableTooltips(table) {
 			$('.navtable .ui-pg-button').tooltip({container:'body'});
 			$(table).find('.ui-pg-div').tooltip({container:'body'});
+		}
+		function doSearch() {
+			var page = $('#dataGridTable').jqGrid('getGridParam', 'page');
+			$("#dataGridTable").clearGridData();
+			$("#dataGridTable").jqGrid("setGridParam", {
+				url : "${ctx}/manage/building/query?random="+ Math.random(),
+				page : page,
+				postData : {
+					buildingName : $.trim($("#buildingName").val())
+				},
+				datatype: "json"
+			}).trigger("reloadGrid");
 		}
 		</script>
 		</jscript>
