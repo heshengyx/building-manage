@@ -236,7 +236,7 @@
 			}).trigger("reloadGrid");
 		}
 		function doModify(id) {
-			var url = "${ctx}/manage/building/edit?random="+ Math.random();
+			var url = "${ctx}/manage/building/edit?id=" + id + "&random=" + Math.random();
 			var options = {
 				title: '编辑',
 				width: 500

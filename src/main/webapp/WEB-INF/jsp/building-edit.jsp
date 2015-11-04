@@ -17,14 +17,32 @@
 	
 	<div class="form-group">
 		<div class="col-md-offset-2 col-md-10">
-			<button class="btn btn-sm btn-info" type="button" id="btn-edit"><i class="icon-ok bigger-110"></i>查 询</button>
+			<button class="btn btn-sm btn-info" type="button" id="btn-edit"><i class="icon-ok bigger-110"></i>保 存</button>
 			&nbsp; &nbsp; &nbsp;
-			<button class="btn btn-sm" type="reset"><i class="icon-undo bigger-110"></i>重 置</button>
+			<button class="btn btn-sm" type="button" id="btn-close"><i class="icon-undo bigger-110"></i>关 闭</button>
 		</div>
 	</div>
 </form>
 <script type="text/javascript">	
 $(document).ready(function() {
-	alert(1);
+	var url = "${ctx}/manage/building/getData?random="+ Math.random();
+	var params = {
+		id: "${param.id}"
+	};
+	$.post(url, params, function(result) {
+		if ("500" == result.code) {
+			dialog({
+			    title: '消息',
+			    width: 200,
+			    content: result.message,
+			    okValue: '确定',
+			    ok: true,
+			    cancel: false
+			}).showModal();
+		} else {
+			$("#buildingNameEdit").val(result.data.buildingName);
+			$("#buildingAddressEdit").val(result.data.buildingAddress);
+		}
+	}, "json");
 });
 </script>

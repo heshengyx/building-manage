@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.house.building.entity.Building;
 import com.house.building.param.BuildingQueryParam;
 import com.house.building.service.IBuildingService;
 import com.myself.common.exception.ServiceException;
@@ -48,6 +49,26 @@ public class BuildingManageController extends BaseController {
 	@ResponseBody
 	public Object query(BuildingQueryParam param, int page, int rows) {
 		return buildingService.query(param, page, rows);
+	}
+	
+	@RequestMapping("/getData")
+	@ResponseBody
+	public Object getData(String id) {
+		JsonMessage jMessage = new JsonMessage();
+		Building data = null;
+		try {
+			data = buildingService.getDataById(id);
+			jMessage.setData(data);
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
 	}
 	
 	@RequestMapping("/delete")
