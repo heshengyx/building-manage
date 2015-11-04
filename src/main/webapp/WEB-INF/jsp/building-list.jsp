@@ -4,6 +4,7 @@
 <html lang="en">
 	<head>
 		<title>jquery网格插件 - Bootstrap后台管理系统模版Ace下载</title>
+		<link rel="stylesheet" href="${ctx}/css/ui-dialog.css" />
 	</head>
 
 	<body>
@@ -95,9 +96,16 @@
 		<script src="${ctx}/js/date-time/bootstrap-datepicker.min.js"></script>
 		<script src="${ctx}/js/jqGrid/jquery.jqGrid.min.js"></script>
 		<script src="${ctx}/js/jqGrid/i18n/grid.locale-cn.js"></script>
-		<script src="${ctx}/js/format.js"></script>
+		<script src="${ctx}/js/format-util.js"></script>
+		<script src="${ctx}/js/dialog-min.js"></script>
 		<script type="text/javascript">	
 		$(document).ready(function() {
+			//https://github.com/aui/artDialog
+			var d = dialog({
+			    title: '欢迎',
+			    content: '欢迎使用 artDialog 对话框组件！'
+			});
+			d.showModal();
 			$("#dataGridTable").jqGrid({
 				url: "${ctx}/manage/building/query",
 				datatype: "json",
@@ -113,8 +121,8 @@
 						var content = "";
 						content += "<div class=\"visible-md visible-lg hidden-sm hidden-xs action-buttons\">"
 						content += "<a class=\"blue\" href=\"#\"><i class=\"icon-zoom-in bigger-130\"></i></a>";
-						content += "<a class=\"green\" href=\"#\"><i class=\"icon-pencil bigger-130\"></i></a>";
-						content += "<a class=\"red\" href=\"#\"><i class=\"icon-trash bigger-130\"></i></a>";
+						content += "<a class=\"green\" href=\"javascript:void(0);\" onclick=\"doModify('" + row.id + "')\"><i class=\"icon-pencil bigger-130\"></i></a>";
+						content += "<a class=\"red\" href=\"javascript:void(0);\" onclick=\"doTrash('" + row.id + "');\"><i class=\"icon-trash bigger-130\"></i></a>";
 						content += "</div>";
 						return content;
 					}}
@@ -216,7 +224,7 @@
 			$(table).find('.ui-pg-div').tooltip({container:'body'});
 		}
 		function doSearch() {
-			var page = $('#dataGridTable').jqGrid('getGridParam', 'page');
+			var page = $("#dataGridTable").jqGrid("getGridParam", "page");
 			$("#dataGridTable").clearGridData();
 			$("#dataGridTable").jqGrid("setGridParam", {
 				url : "${ctx}/manage/building/query?random="+ Math.random(),
@@ -226,6 +234,65 @@
 				},
 				datatype: "json"
 			}).trigger("reloadGrid");
+		}
+		function doModify(id) {
+			var url = "${ctx}/manage/building/edit?random="+ Math.random();
+			var options = {
+				title: '编辑',
+				width: 500
+			};
+			showDialog(url, options);
+		}
+		function doTrash(id) {
+			dialog({
+			    title: '消息',
+			    width: 200,
+			    content: '确定要删除吗?',
+			    okValue: '确定',
+			    ok: function () {
+			        this.title('删除中…');
+			        var url = "${ctx}/manage/building/delete?random="+ Math.random();
+					var params = {
+						id: id
+					};
+					$.post(url, params, function(result) {
+						if ("500" == result.code) {
+			  				dialog({
+			  				    title: '消息',
+			  				    width: 200,
+			  				    content: result.message,
+			  				    okValue: '确定',
+			  				    ok: true,
+			  				    cancel: false
+			  				}).showModal();
+			  			} else {
+			  				dialog({
+			  				    title: '消息',
+			  				    width: 200,
+			  				    content: '删除成功',
+			  				  	okValue: '确定',
+			  			    	ok: function () {
+			  			    		doSearch();			  			    	
+			  			    	},
+			  			    	cancel: false
+			  				}).showModal();
+			  			}
+					}, "json");
+			        //return false;
+			    },
+			    cancelValue: '取消',
+			    cancel: true
+			}).showModal();
+		}
+		var _myDialog;
+		function showDialog(url, options) {
+			_myDialog = dialog(options);// 初始化一个带有loading图标的空对话框
+			jQuery.ajax({
+				url : url,
+				success : function(data) {
+					_myDialog.content(data).showModal();// 填充对话框内容
+				}
+			});
 		}
 		</script>
 		</jscript>

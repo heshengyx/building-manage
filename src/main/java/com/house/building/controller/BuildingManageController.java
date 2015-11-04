@@ -1,5 +1,7 @@
 package com.house.building.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.house.building.param.BuildingQueryParam;
 import com.house.building.service.IBuildingService;
+import com.myself.common.exception.ServiceException;
+import com.myself.common.message.JsonMessage;
 
 /**
  * 描述：
@@ -24,6 +28,9 @@ import com.house.building.service.IBuildingService;
 @RequestMapping("/manage/building")
 public class BuildingManageController extends BaseController {
 
+	private final static Logger logger = LoggerFactory
+			.getLogger(BuildingManageController.class);
+	
 	@Autowired
 	private IBuildingService buildingService;
 	
@@ -32,9 +39,32 @@ public class BuildingManageController extends BaseController {
 		return "building-list";
 	}
 	
+	@RequestMapping("/edit")
+	public String edit() {
+		return "building-edit";
+	}
+	
 	@RequestMapping("/query")
 	@ResponseBody
 	public Object query(BuildingQueryParam param, int page, int rows) {
 		return buildingService.query(param, page, rows);
+	}
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public Object delete(String id) {
+		JsonMessage jMessage = new JsonMessage();
+		try {
+			buildingService.deleteById(id);
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
 	}
 }
