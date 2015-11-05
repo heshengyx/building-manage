@@ -119,10 +119,12 @@
 					//{label:'操作', name:'opts', index:'opts', width:50, align:'center', formatter: "actions"}
 					{label:'操作', name:'opts', index:'opts', width:50, align:'center', formatter: function(cellval, options, row) {
 						var content = "";
-						content += "<div class=\"visible-md visible-lg hidden-sm hidden-xs action-buttons\">"
+						content += "<div class=\"visible-md visible-lg hidden-sm hidden-xs action-buttons\">";
+						
 						content += "<a class=\"blue\" href=\"#\"><i class=\"icon-zoom-in bigger-130\"></i></a>";
 						content += "<a class=\"green\" href=\"javascript:void(0);\" onclick=\"doModify('" + row.id + "')\"><i class=\"icon-pencil bigger-130\"></i></a>";
 						content += "<a class=\"red\" href=\"javascript:void(0);\" onclick=\"doTrash('" + row.id + "');\"><i class=\"icon-trash bigger-130\"></i></a>";
+						content += "<a class=\"red\" href=\"javascript:void(0);\" onclick=\"units('" + row.id + "', '" + row.buildingName + "');\"><i class=\"icon-trash bigger-130\"></i></a>";
 						content += "</div>";
 						return content;
 					}}
@@ -283,6 +285,15 @@
 			    cancelValue: '取消',
 			    cancel: true
 			}).showModal();
+		}
+		function units(id, title) {
+			var url = "${ctx}/manage/buildingUnit?id=" + id + "&random=" + Math.random();
+			var options = {
+				title: title,
+				width: 700,
+				height: 500
+			};
+			showDialog(url, options);
 		}
 		var _myDialog;
 		function showDialog(url, options) {
