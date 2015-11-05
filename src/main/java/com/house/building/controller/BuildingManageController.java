@@ -71,6 +71,25 @@ public class BuildingManageController extends BaseController {
 		return jMessage;
 	}
 	
+	@RequestMapping("/update")
+	@ResponseBody
+	public Object update(Building param) {
+		JsonMessage jMessage = new JsonMessage();
+		try {
+			buildingService.update(param);
+			jMessage.setMessage("更新成功");
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
+	}
+	
 	@RequestMapping("/delete")
 	@ResponseBody
 	public Object delete(String id) {

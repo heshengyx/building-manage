@@ -44,5 +44,27 @@ $(document).ready(function() {
 			$("#buildingAddressEdit").val(result.data.buildingAddress);
 		}
 	}, "json");
+	
+	$("#btn-edit").click(function() {
+		url = "${ctx}/manage/building/update?random="+ Math.random();
+		params = {
+			id: "${param.id}",
+			buildingName: $("#buildingNameEdit").val(),
+			buildingAddress: $("#buildingAddressEdit").val()
+		};
+		$.post(url, params, function(result) {
+			dialog({
+			    title: '消息',
+			    width: 200,
+			    content: result.message,
+			    okValue: '确定',
+			    ok: function () {
+			    	_myDialog.close().remove();
+	                doSearch();
+		    	},
+			    cancel: false
+			}).showModal();
+		}, "json");
+	});
 });
 </script>
