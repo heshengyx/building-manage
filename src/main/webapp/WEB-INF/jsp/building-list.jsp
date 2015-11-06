@@ -77,9 +77,11 @@
 							
 							<div class="form-group">
 								<div class="col-md-offset-1 col-md-11">
-									<button class="btn btn-sm btn-info" type="button" id="search-btn"><i class="icon-ok bigger-110"></i>查 询</button>
+									<button class="btn btn-sm btn-info" type="button" id="btn-search"><i class="icon-ok bigger-110"></i>查 询</button>
 									&nbsp; &nbsp; &nbsp;
 									<button class="btn btn-sm" type="reset"><i class="icon-undo bigger-110"></i>重 置</button>
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-sm btn-info" type="button" id="btn-add"><i class="icon-ok bigger-110"></i>新 增</button>
 								</div>
 							</div>
 						</form>
@@ -117,7 +119,7 @@
 					{label:'楼层', name:'buildingFloor', index:'buildingFloor', width:50},
 					{label:'创建时间', name:'createTime', index:'createTime', width:100, formatter:to_date_hms},
 					//{label:'操作', name:'opts', index:'opts', width:50, align:'center', formatter: "actions"}
-					{label:'操作', name:'opts', index:'opts', width:50, align:'center', formatter: function(cellval, options, row) {
+					{label:'操作', name:'opts', index:'opts', width:80, align:'center', formatter: function(cellval, options, row) {
 						var content = "";
 						content += "<div class=\"visible-md visible-lg hidden-sm hidden-xs action-buttons\">";
 						
@@ -174,8 +176,16 @@
 				}
 			);
 			
-			$('#search-btn').click(function() {
+			$('#btn-search').click(function() {
 				doSearch();
+			});
+			$("#btn-add").click(function() {
+				var url = "${ctx}/manage/building/add?random=" + Math.random();
+				var options = {
+					title: '新增',
+					width: 500
+				};
+				showDialog(url, options);
 			});
 		});
 		function styleCheckbox(table) {
@@ -287,7 +297,7 @@
 			}).showModal();
 		}
 		function units(id, title) {
-			var url = "${ctx}/manage/buildingUnit?id=" + id + "&random=" + Math.random();
+			var url = "${ctx}/manage/buildingUnit?buildingId=" + id + "&random=" + Math.random();
 			var options = {
 				title: title,
 				width: 700,

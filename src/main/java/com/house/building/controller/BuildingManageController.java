@@ -40,6 +40,11 @@ public class BuildingManageController extends BaseController {
 		return "building-list";
 	}
 	
+	@RequestMapping("/add")
+	public String add() {
+		return "building-add";
+	}
+	
 	@RequestMapping("/edit")
 	public String edit() {
 		return "building-edit";
@@ -71,12 +76,33 @@ public class BuildingManageController extends BaseController {
 		return jMessage;
 	}
 	
+	@RequestMapping("/save")
+	@ResponseBody
+	public Object save(Building param) {
+		JsonMessage jMessage = new JsonMessage();
+		try {
+			buildingService.save(param);
+			jMessage.setCode(JsonMessage.SUCCESS_CODE);
+			jMessage.setMessage("新增成功");
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
+	}
+	
 	@RequestMapping("/update")
 	@ResponseBody
 	public Object update(Building param) {
 		JsonMessage jMessage = new JsonMessage();
 		try {
 			buildingService.update(param);
+			jMessage.setCode(JsonMessage.SUCCESS_CODE);
 			jMessage.setMessage("更新成功");
 		} catch (Exception e) {
 			jMessage.setCode(JsonMessage.ERROR_CODE);

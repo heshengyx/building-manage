@@ -17,7 +17,7 @@
 	
 	<div class="form-group">
 		<div class="col-md-offset-2 col-md-10">
-			<button class="btn btn-sm btn-info" type="button" id="btn-edit"><i class="icon-ok bigger-110"></i>保 存</button>
+			<button class="btn btn-sm btn-info" type="button" id="btn-update"><i class="icon-ok bigger-110"></i>保 存</button>
 			&nbsp; &nbsp; &nbsp;
 			<button class="btn btn-sm" type="button" id="btn-close"><i class="icon-undo bigger-110"></i>关 闭</button>
 		</div>
@@ -45,7 +45,7 @@ $(document).ready(function() {
 		}
 	}, "json");
 	
-	$("#btn-edit").click(function() {
+	$("#btn-update").click(function() {
 		url = "${ctx}/manage/building/update?random="+ Math.random();
 		params = {
 			id: "${param.id}",
@@ -59,8 +59,12 @@ $(document).ready(function() {
 			    content: result.message,
 			    okValue: '确定',
 			    ok: function () {
-			    	_myDialog.close().remove();
-	                doSearch();
+			    	if (result.code == "500") {
+			    		return true;	
+			    	} else {
+			    		_myDialog.close().remove();
+		                doSearch();	
+			    	}
 		    	},
 			    cancel: false
 			}).showModal();

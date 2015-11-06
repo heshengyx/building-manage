@@ -1,6 +1,21 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/common/include.jsp"%>
-<!-- <p>楼盘名称：<span id="buildingNameText"></span></p> -->
+<form class="form-search">
+	<div class="row">
+		<div class="col-xs-8 col-sm-8">
+			<div class="input-group">
+				<input type="text" id="unitName" class="form-control search-query" placeholder="栋座" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-info btn-sm" id="btn-query">查 询<i class="icon-search icon-on-right bigger-110"></i></button>
+				</span>
+			</div>
+		</div>
+		<div class="col-xs-4 col-sm-4 text-right">
+			<button type="button" class="btn btn-info btn-sm">新 增</button>
+		</div>
+	</div>
+</form>
+<br>
 <table id="unitGridTable"></table>
 <div id="unitGridPager"></div>
 <script type="text/javascript">	
@@ -25,19 +40,18 @@ $(document).ready(function() {
 	}, "json"); */
 	
 	$("#unitGridTable").jqGrid({
-		url: "${ctx}/manage/buildingUnit/query",
+		url: "${ctx}/manage/buildingUnit/query?buildingId=${param.buildingId}",
 		datatype: "json",
 		colModel: [
 			{label:'id', name:'id', key:true, index:'id', hidden:true},
 			{label:'栋座名称', name:'name', index:'name'},
 			{label:'楼层', name:'floor', index:'floor', width:50},
 			{label:'创建时间', name:'createTime', index:'createTime', width:100, formatter:to_date_hms},
-			//{label:'操作', name:'opts', index:'opts', width:50, align:'center', formatter: "actions"}
 			{label:'操作', name:'opts', index:'opts', width:50, align:'center', formatter: function(cellval, options, row) {
 				var content = "";
 				content += "<div class=\"visible-md visible-lg hidden-sm hidden-xs action-buttons\">";
-				content += "<a class=\"green\" href=\"javascript:void(0);\" onclick=\"doModify('" + row.id + "')\"><i class=\"icon-pencil bigger-130\"></i></a>";
-				content += "<a class=\"red\" href=\"javascript:void(0);\" onclick=\"doTrash('" + row.id + "');\"><i class=\"icon-trash bigger-130\"></i></a>";
+				content += "<a class=\"green\" href=\"javascript:void(0);\" onclick=\"doModifyUnit('" + row.id + "')\"><i class=\"icon-pencil bigger-130\"></i></a>";
+				content += "<a class=\"red\" href=\"javascript:void(0);\" onclick=\"doTrashUnit('" + row.id + "');\"><i class=\"icon-trash bigger-130\"></i></a>";
 				content += "</div>";
 				return content;
 			}}
@@ -70,26 +84,29 @@ $(document).ready(function() {
 		height: 330
 	});
 	
-	$("#btn-edit").click(function() {
-		url = "${ctx}/manage/building/update?random="+ Math.random();
-		params = {
-			id: "${param.id}",
-			buildingName: $("#buildingNameEdit").val(),
-			buildingAddress: $("#buildingAddressEdit").val()
-		};
-		$.post(url, params, function(result) {
-			dialog({
-			    title: '消息',
-			    width: 200,
-			    content: result.message,
-			    okValue: '确定',
-			    ok: function () {
-			    	_myDialog.close().remove();
-	                doSearch();
-		    	},
-			    cancel: false
-			}).showModal();
-		}, "json");
+	$("#btn-query").click(function() {
+		doSearchUnit();
 	});
 });
+function doSearchUnit() {
+	var page = $("#unitGridTable").jqGrid("getGridParam", "page");
+	$("#unitGridTable").clearGridData();
+	$("#unitGridTable").jqGrid("setGridParam", {
+		url : "${ctx}/manage/buildingUnit/query?random="+ Math.random(),
+		page : page,
+		postData : {
+			buildingId : "${param.buildingId}",
+			name : $.trim($("#unitName").val())
+		},
+		datatype: "json"
+	}).trigger("reloadGrid");
+}
+function doModifyUnit(id) {
+	var url = "${ctx}/manage/buildingUnit/edit?id=" + id + "&random=" + Math.random();
+	var options = {
+		title: '编辑',
+		width: 300
+	};
+	showDialog(url, options);
+}
 </script>
