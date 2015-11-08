@@ -63,6 +63,7 @@ public class BuildingManageController extends BaseController {
 		Building data = null;
 		try {
 			data = buildingService.getDataById(id);
+			jMessage.setCode(JsonMessage.SUCCESS_CODE);
 			jMessage.setData(data);
 		} catch (Exception e) {
 			jMessage.setCode(JsonMessage.ERROR_CODE);

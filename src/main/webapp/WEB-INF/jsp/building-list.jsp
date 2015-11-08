@@ -88,7 +88,7 @@
 						
 						<table id="dataGridTable"></table>
 						<div id="dataGridPager"></div>
-
+						
 						<!-- PAGE CONTENT ENDS -->
 					</div><!-- /.col -->
 				</div><!-- /.row -->
@@ -126,7 +126,8 @@
 						content += "<a class=\"blue\" href=\"#\"><i class=\"icon-zoom-in bigger-130\"></i></a>";
 						content += "<a class=\"green\" href=\"javascript:void(0);\" onclick=\"doModify('" + row.id + "')\"><i class=\"icon-pencil bigger-130\"></i></a>";
 						content += "<a class=\"red\" href=\"javascript:void(0);\" onclick=\"doTrash('" + row.id + "');\"><i class=\"icon-trash bigger-130\"></i></a>";
-						content += "<a class=\"red\" href=\"javascript:void(0);\" onclick=\"units('" + row.id + "', '" + row.buildingName + "');\"><i class=\"icon-trash bigger-130\"></i></a>";
+						content += "<a class=\"red\" href=\"javascript:void(0);\" onclick=\"buildingUnits('" + row.id + "', '" + row.buildingName + "');\"><i class=\"icon-trash bigger-130\"></i></a>";
+						content += "<a class=\"red\" href=\"javascript:void(0);\" onclick=\"buildingImages('" + row.id + "', '" + row.buildingName + "');\"><i class=\"icon-trash bigger-130\"></i></a>";
 						content += "</div>";
 						return content;
 					}}
@@ -296,8 +297,17 @@
 			    cancel: true
 			}).showModal();
 		}
-		function units(id, title) {
+		function buildingUnits(id, title) {
 			var url = "${ctx}/manage/buildingUnit?buildingId=" + id + "&random=" + Math.random();
+			var options = {
+				title: title,
+				width: 700,
+				height: 500
+			};
+			showDialog(url, options);
+		}
+		function buildingImages(id, title) {
+			var url = "${ctx}/manage/buildingImage?buildingId=" + id + "&random=" + Math.random();
 			var options = {
 				title: title,
 				width: 700,

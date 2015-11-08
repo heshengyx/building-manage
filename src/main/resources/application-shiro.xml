@@ -72,7 +72,7 @@
 	            /js/** = anon
 	            /fonts/** = anon
 	            /plugins/** = anon
-	            
+	            /uploads/** = anon
 	            /login/** = anon
 	            
 	            /** = authc

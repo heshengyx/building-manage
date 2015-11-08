@@ -78,4 +78,22 @@ public class BuildingUnitManageController extends BaseController {
 		}
 		return jMessage;
 	}
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public Object delete(String id) {
+		JsonMessage jMessage = new JsonMessage();
+		try {
+			buildingUnitService.deleteById(id);
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
+	}
 }

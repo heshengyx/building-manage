@@ -109,4 +109,37 @@ function doModifyUnit(id) {
 	};
 	showDialog(url, options);
 }
+function doTrashUnit(id) {
+	dialog({
+	    title: '消息',
+	    width: 200,
+	    content: '确定要删除吗?',
+	    okValue: '确定',
+	    ok: function () {
+	        this.title('删除中…');
+	        var url = "${ctx}/manage/buildingUnit/delete?random="+ Math.random();
+			var params = {
+				id: id
+			};
+			$.post(url, params, function(result) {
+				dialog({
+  				    title: '消息',
+  				    width: 200,
+  				    content: '删除成功',
+  				  	okValue: '确定',
+  			    	ok: function () {
+  			    		if ("500" == result.code) {
+  			    			return true;
+  			    		} else {
+  			    			doSearchUnit();		
+  			    		}  			    	
+  			    	},
+  			    	cancel: false
+  				}).showModal();
+			}, "json");
+	    },
+	    cancelValue: '取消',
+	    cancel: true
+	}).showModal();
+}
 </script>

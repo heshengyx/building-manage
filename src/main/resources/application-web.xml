@@ -52,6 +52,14 @@
             <value>com.house.building.service.IBuildingUnitService</value>  
        	</property>
     </bean>
+    <bean id="buildingImageService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl">  
+			<value>http://localhost:8085/hessian/buildingImageService</value>   
+        </property>   
+        <property name="serviceInterface">  
+            <value>com.house.building.service.IBuildingImageService</value>  
+       	</property>
+    </bean>
     
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">  
       	<property name="basename" value="messages"/>

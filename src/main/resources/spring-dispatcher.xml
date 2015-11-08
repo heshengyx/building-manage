@@ -46,6 +46,7 @@
 	<mvc:resources location="/fonts/" mapping="/fonts/**" />
 	<mvc:resources location="/locales/" mapping="/locales/**" />
 	<mvc:resources location="/plugins/" mapping="/plugins/**" />
+	<mvc:resources location="/uploads/" mapping="/uploads/**" />
 	
 	<!-- <mvc:interceptors>
         配置Token拦截器，防止用户重复提交数据

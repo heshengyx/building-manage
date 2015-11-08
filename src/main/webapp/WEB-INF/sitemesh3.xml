@@ -12,6 +12,7 @@
 	<mapping path="/fonts/*" exclude="true"/>
 	<mapping path="/locales/*" exclude="true"/>
 	<mapping path="/plugins/*" exclude="true"/>
+	<mapping path="/uploads/*" exclude="true"/>
 	
 	<!-- 自定义 tag 规则 -->
 	<content-processor>
