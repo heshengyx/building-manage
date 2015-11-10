@@ -372,7 +372,18 @@
 								<span class="menu-text"> 楼盘管理 </span>
 							</a>
 						</li>
-						
+						<li>
+							<a href="${ctx}/manage/house">
+								<i class="icon-text-width"></i>
+								<span class="menu-text"> 房源管理 </span>
+							</a>
+						</li>
+						<li>
+							<a href="${ctx}/manage/houseImage">
+								<i class="icon-text-width"></i>
+								<span class="menu-text"> 房源图片 </span>
+							</a>
+						</li>
 						<li>
 							<a href="typography.html">
 								<i class="icon-text-width"></i>
