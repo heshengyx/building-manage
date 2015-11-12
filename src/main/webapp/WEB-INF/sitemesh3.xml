@@ -4,6 +4,7 @@
 	<mapping path="/manage" decorator="/WEB-INF/layout/mainLayout.jsp"/>
 	<mapping path="/manage/building" decorator="/WEB-INF/layout/mainLayout.jsp"/>
 	<mapping path="/manage/house" decorator="/WEB-INF/layout/mainLayout.jsp"/>
+	<mapping path="/manage/house/add" decorator="/WEB-INF/layout/mainLayout.jsp"/>
     <mapping path="/manage/houseImage" decorator="/WEB-INF/layout/mainLayout.jsp"/>
     <!-- sitemesh-conf -->
 	

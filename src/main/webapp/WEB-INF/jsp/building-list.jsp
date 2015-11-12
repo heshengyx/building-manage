@@ -5,6 +5,7 @@
 	<head>
 		<title>jquery网格插件 - Bootstrap后台管理系统模版Ace下载</title>
 		<link rel="stylesheet" href="${ctx}/css/ui-dialog.css" />
+		<link rel="stylesheet" href="${ctx}/css/ui.jqgrid.css" />
 	</head>
 
 	<body>

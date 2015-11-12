@@ -1,5 +1,7 @@
 package com.house.building.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.house.building.entity.Building;
+import com.house.building.entity.BuildingImage;
+import com.house.building.param.BuildingImageQueryParam;
 import com.house.building.param.BuildingQueryParam;
 import com.house.building.service.IBuildingService;
 import com.myself.common.exception.ServiceException;
@@ -54,6 +58,27 @@ public class BuildingManageController extends BaseController {
 	@ResponseBody
 	public Object query(BuildingQueryParam param, int page, int rows) {
 		return buildingService.query(param, page, rows);
+	}
+	
+	@RequestMapping("/list")
+	@ResponseBody
+	public Object list(BuildingQueryParam param) {
+		JsonMessage jMessage = new JsonMessage();
+		List<Building> data = null;
+		try {
+			data = buildingService.list(param);
+			jMessage.setCode(JsonMessage.SUCCESS_CODE);
+			jMessage.setData(data);
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
 	}
 	
 	@RequestMapping("/getData")

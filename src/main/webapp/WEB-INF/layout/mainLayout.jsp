@@ -10,7 +10,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- basic styles -->
-	<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="${ctx}/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="${ctx}/css/font-awesome.min.css" />
 
 	<!--[if IE 7]>
@@ -19,10 +19,10 @@
 
 	<!-- page specific plugin styles -->
 	<link rel="stylesheet" href="${ctx}/css/jquery-ui-1.10.3.full.min.css" />
+	<sitemesh:write property="head" />
 	<link rel="stylesheet" href="${ctx}/css/datepicker.css" />
-	<link rel="stylesheet" href="${ctx}/css/ui.jqgrid.css" />
 	<!-- fonts -->
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+	<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" /> -->
 
 	<!-- ace styles -->
 	<link rel="stylesheet" href="${ctx}/css/ace.min.css" />
@@ -42,7 +42,6 @@
 	<script src="${ctx}/js/html5shiv.js"></script>
 	<script src="${ctx}/js/respond.min.js"></script>
 	<![endif]-->
-    <sitemesh:write property="head" />
   </head>
   
   <body>
@@ -372,11 +371,20 @@
 								<span class="menu-text"> 楼盘管理 </span>
 							</a>
 						</li>
-						<li>
-							<a href="${ctx}/manage/house">
-								<i class="icon-text-width"></i>
+						<li class="active open">
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-desktop"></i>
 								<span class="menu-text"> 房源管理 </span>
+								<b class="arrow icon-angle-down"></b>
 							</a>
+							<ul class="submenu">
+								<li class="active">
+									<a href="${ctx}/manage/house"><i class="icon-double-angle-right"></i>房源列表</a>
+								</li>
+								<li>
+									<a href="${ctx}/manage/house/add"><i class="icon-double-angle-right"></i>房源新增</a>
+								</li>
+							</ul>
 						</li>
 						<li>
 							<a href="${ctx}/manage/houseImage">

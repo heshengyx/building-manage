@@ -5,6 +5,7 @@
 	<head>
 		<title>房源管理</title>
 		<link rel="stylesheet" href="${ctx}/css/ui-dialog.css" />
+		<link rel="stylesheet" href="${ctx}/css/ui.jqgrid.css" />
 	</head>
 
 	<body>
